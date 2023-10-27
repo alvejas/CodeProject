@@ -34,12 +34,12 @@ public class ClientDataRecord {
         this.timeStamp = timeStamp;
     }
 
-    public String getServico() {
-        return servico;
+    public String getService() {
+        return service;
     }
 
-    public void setServico(String servico) {
-        this.servico = servico;
+    public void setService(String servico) {
+        this.service = servico;
     }
 
     public String getChargingRequest() {
@@ -118,7 +118,7 @@ public class ClientDataRecord {
 
     private LocalDateTime timeStamp;
 
-    private String servico;
+    private String service;
 
     private String chargingRequest;
 

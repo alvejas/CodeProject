@@ -12,13 +12,7 @@ public class BillingAccount {
 
     private int bucket1;
 
-    public int getIdentifier() {
-        return identifier;
-    }
 
-    public void setIdentifier(int identifier) {
-        this.identifier = identifier;
-    }
 
     private int bucket2;
 
@@ -32,10 +26,33 @@ public class BillingAccount {
 
     private int counterD;
 
-    private String tarifarioServicoA;
+    public String getMobilePlanA() {
+        return mobilePlanA;
+    }
 
-    private String tarifarioServicoB;
+    public void setMobilePlanA(String mobilePlanA) {
+        this.mobilePlanA = mobilePlanA;
+    }
 
+    public String getMobilePlanB() {
+        return mobilePlanB;
+    }
+
+    public void setMobilePlanB(String mobilePlanB) {
+        this.mobilePlanB = mobilePlanB;
+    }
+
+    private String mobilePlanA;
+
+    private String mobilePlanB;
+
+    public int getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(int identifier) {
+        this.identifier = identifier;
+    }
     public int getMsisDN() {
         return msisDN;
     }
@@ -100,21 +117,6 @@ public class BillingAccount {
         this.counterD = counterD;
     }
 
-    public String getTarifarioServicoA() {
-        return tarifarioServicoA;
-    }
-
-    public void setTarifarioServicoA(String tarifarioServicoA) {
-        this.tarifarioServicoA = tarifarioServicoA;
-    }
-
-    public String getTarifarioServicoB() {
-        return tarifarioServicoB;
-    }
-
-    public void setTarifarioServicoB(String tarifarioServicoB) {
-        this.tarifarioServicoB = tarifarioServicoB;
-    }
 
 
 }
