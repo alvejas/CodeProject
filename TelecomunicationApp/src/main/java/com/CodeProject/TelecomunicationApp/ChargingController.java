@@ -19,8 +19,16 @@ public class ChargingController {
     }
 
     @PostMapping()
-    public ResponseEntity<Void>SubscribeTariff(@RequestBody ChargingRequest request) {
+    public ChargingReply SubscribeTariff(@RequestBody ChargingRequest request) {
 
-        return null; //TODO it will return a chargingReply!!
+        if ("A".equals(request.getService())){
+            return chargingService.serviceA(request);
+        }
+        if("B".equals(request.getService())){
+            return chargingService.serviceB(request);
+        }
+        else
+            return new ChargingReply(request.getRequestId() , "Invalid Service" , 0 );
+
     }
 }
