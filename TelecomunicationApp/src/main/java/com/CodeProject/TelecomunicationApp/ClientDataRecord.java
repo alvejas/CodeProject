@@ -1,13 +1,14 @@
 package com.CodeProject.TelecomunicationApp;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "CDR")
 public class ClientDataRecord {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int identifier;
 
     public int getIdentifier() {

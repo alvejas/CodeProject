@@ -1,12 +1,14 @@
 package com.CodeProject.TelecomunicationApp;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "Billing")
 public class BillingAccount {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int identifier;
     private int msisDN;
 
