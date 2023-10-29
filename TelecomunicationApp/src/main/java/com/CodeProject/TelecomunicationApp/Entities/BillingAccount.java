@@ -11,11 +11,11 @@ public class BillingAccount {
     private int identifier;
     private int msisDN;
 
-    private int bucket1;
+    private double bucket1;
 
-    private int bucket2;
+    private double bucket2;
 
-    private int bucket3;
+    private double bucket3;
 
     private int counterA;
 
@@ -60,7 +60,7 @@ public class BillingAccount {
         this.msisDN = msisDN;
     }
 
-    public int getBucket1() {
+    public double getBucket1() {
         return bucket1;
     }
 
@@ -68,7 +68,7 @@ public class BillingAccount {
         this.bucket1 = bucket1;
     }
 
-    public int getBucket2() {
+    public double getBucket2() {
         return bucket2;
     }
 
@@ -76,7 +76,7 @@ public class BillingAccount {
         this.bucket2 = bucket2;
     }
 
-    public int getBucket3() {
+    public double getBucket3() {
         return bucket3;
     }
 
