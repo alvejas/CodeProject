@@ -1,10 +1,9 @@
-package com.CodeProject.TelecomunicationApp;
+package com.CodeProject.TelecomunicationApp.Entities;
 
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "Billing")
+@Entity(name = "billing")
 public class BillingAccount {
 
     @Id
@@ -13,8 +12,6 @@ public class BillingAccount {
     private int msisDN;
 
     private int bucket1;
-
-
 
     private int bucket2;
 

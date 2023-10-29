@@ -4,12 +4,13 @@ import java.time.LocalDateTime;
 
 public class ChargingRequest {
 
-    public ChargingRequest(int requestId, LocalDateTime timeStamp, String service, int msisDN, int rsu) {
+    public ChargingRequest(int requestId, LocalDateTime timeStamp, String service, int msisDN, int rsu, boolean roaming) {
         this.requestId = requestId;
         this.timeStamp = timeStamp;
         this.service = service;
         this.msisDN = msisDN;
         this.rsu = rsu;
+        this.roaming = roaming;
     }
 
     private int requestId;
@@ -18,6 +19,15 @@ public class ChargingRequest {
     private int msisDN;
     private int rsu;
 
+    private boolean roaming;
+
+    public boolean isRoaming() {
+        return roaming;
+    }
+
+    public void setRoaming(boolean roaming) {
+        this.roaming = roaming;
+    }
 
     public int getRequestId() {
         return requestId;

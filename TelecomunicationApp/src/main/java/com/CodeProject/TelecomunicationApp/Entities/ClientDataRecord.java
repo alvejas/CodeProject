@@ -1,4 +1,4 @@
-package com.CodeProject.TelecomunicationApp;
+package com.CodeProject.TelecomunicationApp.Entities;
 
 import jakarta.persistence.*;
 

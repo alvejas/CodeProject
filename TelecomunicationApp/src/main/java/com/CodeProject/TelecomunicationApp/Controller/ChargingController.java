@@ -1,7 +1,9 @@
-package com.CodeProject.TelecomunicationApp;
+package com.CodeProject.TelecomunicationApp.Controller;
 
+import com.CodeProject.TelecomunicationApp.ChargingReply;
+import com.CodeProject.TelecomunicationApp.ChargingRequest;
+import com.CodeProject.TelecomunicationApp.Services.ChargingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
