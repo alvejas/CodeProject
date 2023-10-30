@@ -59,30 +59,6 @@ public class ClientDataRecord {
         this.chargingReply = chargingReply;
     }
 
-    public int getBucket1() {
-        return bucket1;
-    }
-
-    public void setBucket1(int bucket1) {
-        this.bucket1 = bucket1;
-    }
-
-    public int getBucket2() {
-        return bucket2;
-    }
-
-    public void setBucket2(int bucket2) {
-        this.bucket2 = bucket2;
-    }
-
-    public int getBucket3() {
-        return bucket3;
-    }
-
-    public void setBucket3(int bucket3) {
-        this.bucket3 = bucket3;
-    }
-
     public int getCounterA() {
         return counterA;
     }
@@ -115,6 +91,30 @@ public class ClientDataRecord {
         this.counterD = counterD;
     }
 
+    public double getBucket1() {
+        return bucket1;
+    }
+
+    public void setBucket1(double bucket1) {
+        this.bucket1 = bucket1;
+    }
+
+    public double getBucket2() {
+        return bucket2;
+    }
+
+    public void setBucket2(double bucket2) {
+        this.bucket2 = bucket2;
+    }
+
+    public double getBucket3() {
+        return bucket3;
+    }
+
+    public void setBucket3(double bucket3) {
+        this.bucket3 = bucket3;
+    }
+
     private int msisDN;
 
     private LocalDateTime timeStamp;
@@ -125,11 +125,11 @@ public class ClientDataRecord {
 
     private String chargingReply;
 
-    private int bucket1;
+    private double bucket1;
 
-    private int bucket2;
+    private double bucket2;
 
-    private int bucket3;
+    private double bucket3;
 
     private int counterA;
 

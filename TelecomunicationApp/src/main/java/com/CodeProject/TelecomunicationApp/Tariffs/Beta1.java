@@ -3,7 +3,8 @@ package com.CodeProject.TelecomunicationApp.Tariffs;
 import com.CodeProject.TelecomunicationApp.ChargingReply;
 import com.CodeProject.TelecomunicationApp.ChargingRequest;
 import com.CodeProject.TelecomunicationApp.Entities.BillingAccount;
-import com.CodeProject.TelecomunicationApp.Repos.ChargingRepository;
+import com.CodeProject.TelecomunicationApp.Entities.ClientDataRecord;
+import com.CodeProject.TelecomunicationApp.Repos.CdrRepository;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,11 +16,13 @@ public class Beta1 implements Tariff{
     private final double normalPrice = 0.1;
     private final double priceAtNight = 0.05;
 
-    private final com.CodeProject.TelecomunicationApp.Repos.ChargingRepository ChargingRepository;
+    private final com.CodeProject.TelecomunicationApp.Repos.chargingRepository chargingRepository;
 
+    private final com.CodeProject.TelecomunicationApp.Repos.CdrRepository cdrRepository;
     @Autowired
-    public Beta1(com.CodeProject.TelecomunicationApp.Repos.ChargingRepository billingAccountRepository) {
-        this.ChargingRepository = billingAccountRepository;
+    public Beta1(com.CodeProject.TelecomunicationApp.Repos.chargingRepository chargingRepository , CdrRepository cdrRepository) {
+        this.chargingRepository = chargingRepository;
+        this.cdrRepository = cdrRepository;
     }
 
 
@@ -34,31 +37,47 @@ public class Beta1 implements Tariff{
             Pair<ChargingReply , Double> pair= getBucketCharged(billing.getBucket3(), disccounts, priceRoaming, rsu, request);
             billing.setBucket2(pair.b);
 
-            ChargingRepository.save(billing);
+            ClientDataRecord cdr = createCdr(billing , request);
+            cdr.setChargingRequest(request.toString());
+            cdr.setChargingReply(pair.a.toString());
 
+            chargingRepository.save(billing);
+            cdrRepository.save(cdr);
             return pair.a;
         } else if (!request.isRoaming()) {
 
             Pair<ChargingReply , Double> pair= getBucketCharged(billing.getBucket1(), disccounts, normalPrice, rsu, request);
             billing.setBucket1(pair.b);
+            ClientDataRecord cdr = createCdr(billing , request);
+            cdr.setChargingRequest(request.toString());
+            cdr.setChargingReply(pair.a.toString());
 
-            ChargingRepository.save(billing);
-
+            chargingRepository.save(billing);
+            cdrRepository.save(cdr);
             return pair.a;
         } else if (!request.isRoaming() && billing.getCounterB() > 5) {
 
             Pair<ChargingReply , Double> pair= getBucketCharged(billing.getBucket2(), disccounts, normalPrice, rsu, request);
 
             billing.setBucket2(pair.b);
+            ClientDataRecord cdr = createCdr(billing , request);
+            cdr.setChargingRequest(request.toString());
+            cdr.setChargingReply(pair.a.toString());
 
-            ChargingRepository.save(billing);
+            chargingRepository.save(billing);
+            cdrRepository.save(cdr);
             return pair.a;
         } else if (!request.isRoaming() && isNight(request.getTimeStamp())) {
 
             Pair<ChargingReply , Double> pair = getBucketCharged(billing.getBucket2(), disccounts, priceAtNight, rsu, request);
             billing.setBucket2(pair.b);
 
-            ChargingRepository.save(billing);
+            ClientDataRecord cdr = createCdr(billing , request);
+            cdr.setChargingRequest(request.toString());
+            cdr.setChargingReply(pair.a.toString());
+
+            chargingRepository.save(billing);
+            cdrRepository.save(cdr);
             return pair.a;
         }
 
@@ -119,6 +138,23 @@ public class Beta1 implements Tariff{
         int hour = date.getHour();
 
         return hour >= 18 || hour < 7;
+    }
+
+    public ClientDataRecord createCdr(BillingAccount billing , ChargingRequest request){
+        ClientDataRecord cdr = new ClientDataRecord();
+        cdr.setBucket1(billing.getBucket1());
+        cdr.setBucket2(billing.getBucket2());
+        cdr.setBucket3(billing.getBucket3());
+        cdr.setCounterA(billing.getCounterA());
+        cdr.setCounterB(billing.getCounterB());
+        cdr.setCounterC(billing.getCounterC());
+        cdr.setCounterD(billing.getCounterD());
+        cdr.setMsisDN(billing.getMsisDN());
+        cdr.setService(request.getService());
+        cdr.setTimeStamp(request.getTimeStamp());
+
+
+        return cdr;
     }
 
 }
