@@ -3,6 +3,9 @@ package com.CodeProject.TelecomunicationApp.Tariffs;
 import com.CodeProject.TelecomunicationApp.ChargingReply;
 import com.CodeProject.TelecomunicationApp.ChargingRequest;
 import com.CodeProject.TelecomunicationApp.Entities.BillingAccount;
+import com.CodeProject.TelecomunicationApp.Repos.ChargingRepository;
+import org.antlr.v4.runtime.misc.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 
@@ -10,20 +13,36 @@ public class Beta2 implements Tariff{
 
     private final double normalPrice = 0.05;
     private final double priceAtNight = 0.025;
+    private final com.CodeProject.TelecomunicationApp.Repos.ChargingRepository ChargingRepository;
 
+
+    @Autowired
+    public Beta2(ChargingRepository billingAccountRepository) {
+        this.ChargingRepository = billingAccountRepository;
+    }
     @Override
     public ChargingReply payment(ChargingRequest request, BillingAccount billing) {
 
         int rsu = request.getRsu();
         double disccounts = disccounts(billing.getCounterB(), billing.getBucket2());
 
-
         if (!request.isRoaming()) {
-            return getBucketCharged(billing.getBucket2(), disccounts, normalPrice, rsu, request);
+            Pair<ChargingReply , Double> pair = getBucketCharged(billing.getBucket2(), disccounts, normalPrice, rsu, request);
+            billing.setBucket2(pair.b);
+
+            ChargingRepository.save(billing);
+
+            return pair.a;
+
 
         } else if (!request.isRoaming() && isNight(request.getTimeStamp())) {
 
-            return getBucketCharged(billing.getBucket2(), disccounts, priceAtNight, rsu, request);
+            Pair<ChargingReply , Double> pair = getBucketCharged(billing.getBucket2(), disccounts, priceAtNight, rsu, request);
+            billing.setBucket2(pair.b);
+
+            ChargingRepository.save(billing);
+
+            return pair.a;
         }
 
         return new ChargingReply(request.getRequestId(), "Unexpected error", 0);
@@ -61,20 +80,21 @@ public class Beta2 implements Tariff{
 
     }
 
-    private ChargingReply getBucketCharged(double bucket, double disccounts, double price, int rsu, ChargingRequest request) {
+    private Pair<ChargingReply , Double> getBucketCharged(double bucket, double disccounts, double price, int rsu, ChargingRequest request) {
         double bucketCharged = bucket;
         double totalPrice = price - disccounts;
         int gsu = (int) (bucketCharged / totalPrice);
+        double budgetleft;
 
         if (isChargePossible(totalPrice, bucketCharged, rsu)) {
 
-            budgetLeft(totalPrice, bucketCharged, rsu);
-            //TODO Actualizar o BillingAccont
+            budgetleft = bucket - budgetLeft(totalPrice, bucketCharged, rsu);
 
-            return new ChargingReply(request.getRequestId(), "Charging completed", rsu);
+
+            return new Pair<>(new ChargingReply(request.getRequestId(), "Charging completed", rsu) , budgetleft );
         } else
-
-            return new ChargingReply(request.getRequestId(), "There is not budget for the transaction", gsu);
+            budgetleft = bucket - (gsu * totalPrice);
+            return new Pair<> (new ChargingReply(request.getRequestId(), "There is not budget for the transaction", gsu) , budgetleft);
     }
 
     public Boolean isNight(LocalDateTime date) {

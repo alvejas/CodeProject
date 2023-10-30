@@ -21,18 +21,18 @@ public class ChargingService {
         BillingAccount billingAccount = repo.findBillingAccountBymsisDN(request.getMsisDN());
 
         if (isDayOfTheWeek(request.getTimeStamp()) && billingAccount.getCounterA()> 100){
-            Alpha1 alpha1 = new Alpha1();
+            Alpha1 alpha1 = new Alpha1(repo);
             return alpha1.payment(request , billingAccount);
         }
 
         if (request.isRoaming() && billingAccount.getBucket2()<10){
-            Alpha2 alpha2 = new Alpha2();
+            Alpha2 alpha2 = new Alpha2(repo);
 
             return alpha2.payment(request , billingAccount);
         }
 
         if (!request.isRoaming() && billingAccount.getBucket2()<10){
-            Alpha3 alpha3 = new Alpha3();
+            Alpha3 alpha3 = new Alpha3(repo);
 
             return alpha3.payment(request , billingAccount);
         }
@@ -44,18 +44,18 @@ public class ChargingService {
         BillingAccount billingAccount = repo.findBillingAccountBymsisDN(request.getMsisDN());
 
         if (isNight(request.getTimeStamp())){
-            Beta1 beta1 = new Beta1();
+            Beta1 beta1 = new Beta1(repo);
             return beta1.payment(request , billingAccount);
         }
 
-        if (request.isRoaming() && billingAccount.getBucket2()<10){
-            Beta2 beta2 = new Beta2();
+        if (!request.isRoaming() && billingAccount.getBucket2()<10){ //TODO trocar
+            Beta2 beta2 = new Beta2(repo);
 
             return beta2.payment(request , billingAccount);
         }
 
-        if (!request.isRoaming() && billingAccount.getBucket3()<10){
-            Beta3 beta3 = new Beta3();
+        if (request.isRoaming() && billingAccount.getBucket3()<10){
+            Beta3 beta3 = new Beta3(repo);
 
             return beta3.payment(request , billingAccount);
         }

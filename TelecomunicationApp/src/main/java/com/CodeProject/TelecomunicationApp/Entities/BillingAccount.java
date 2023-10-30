@@ -60,11 +60,12 @@ public class BillingAccount {
         this.msisDN = msisDN;
     }
 
+
     public double getBucket1() {
         return bucket1;
     }
 
-    public void setBucket1(int bucket1) {
+    public void setBucket1(double bucket1) {
         this.bucket1 = bucket1;
     }
 
@@ -72,7 +73,7 @@ public class BillingAccount {
         return bucket2;
     }
 
-    public void setBucket2(int bucket2) {
+    public void setBucket2(double bucket2) {
         this.bucket2 = bucket2;
     }
 
@@ -80,7 +81,7 @@ public class BillingAccount {
         return bucket3;
     }
 
-    public void setBucket3(int bucket3) {
+    public void setBucket3(double bucket3) {
         this.bucket3 = bucket3;
     }
 
@@ -115,7 +116,4 @@ public class BillingAccount {
     public void setCounterD(int counterD) {
         this.counterD = counterD;
     }
-
-
-
 }
